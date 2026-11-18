@@ -9,9 +9,11 @@ import {
   getInterviewsByUserId,
   getLatestInterviews,
 } from "@/lib/actions/general.action";
+import { redirect } from "next/navigation";
 
 const page = async () => {
   const user = await getCurrentUser();
+  if (!user) redirect("/sign-in");
 
   const [userInterviews, allInterview] = await Promise.all([
     await getInterviewsByUserId(user?.id!),
@@ -51,13 +53,15 @@ const page = async () => {
           {hasPastInterviews ? (
             userInterviews?.map((interview) => (
               <InterviewCard
+                // key={interview.id}
+                // userId={user?.id}
+                // interviewId={interview.id}
+                // role={interview.role}
+                // type={interview.type}
+                // techstack={interview.techstack}
+                // createdAt={interview.createdAt}
+                {...interview}
                 key={interview.id}
-                userId={user?.id}
-                interviewId={interview.id}
-                role={interview.role}
-                type={interview.type}
-                techstack={interview.techstack}
-                createdAt={interview.createdAt}
               />
             ))
           ) : (
